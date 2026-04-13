@@ -1,6 +1,14 @@
-version: '3'
 
+# Versión del formato de docker-compose
+version: '3' 
+
+# Definición de los servicios. Básicamente, cada servicio es un contenedor que se ejecutará. En este caso, tenemos dos servicios: myDB y phpmyadmin.
 services:
+  # Servicio de base de datos MySQL.
+  # Se utiliza la imagen oficial de MySQL versión 8.0. El contenedor se llamará "my-database". Se reiniciará automáticamente si se detiene. 
+  # El puerto 3306 del contenedor se mapeará al puerto 3306 del host. 
+  #Se establecen varias variables de entorno para configurar la base de datos, como el usuario, la contraseña, el nombre de la base de datos y la contraseña del root. 
+  #Además, se monta un volumen para persistir los datos de la base de datos en el host.
   myDB:
     image: mysql:8.0
     container_name: my-database
@@ -15,6 +23,10 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
 
+  # Servicio de phpMyAdmin. Se utiliza la imagen oficial de phpMyAdmin. El contenedor se llamará "phpmyadmin". Se reiniciará automáticamente si se detiene.
+  # El puerto 80 del contenedor se mapeará al puerto 8080 del host.
+  # El servicio depende del servicio myDB, lo que significa que se iniciará después de que myDB esté listo. 
+  # Se establecen varias variables de entorno para configurar phpMyAdmin, como el host y el puerto de la base de datos, así como la contraseña del root.
   phpmyadmin:
     image: phpmyadmin:latest
     container_name: phpmyadmin
